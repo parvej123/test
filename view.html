@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en-US">
+>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="controll.js"></script>
+
+    <style type="text/css">
+        @media only screen and (max-width: 2000px) and (min-width: 1180px) {
+            .lap {
+                left: 1064px;
+                top: -50px;
+                position: relative;
+                /* position: absolute; */
+            }
+            .sumshow {
+                position: relative;
+                top: -56px;
+                left: 885px;
+                width: 95%;
+                height: 37px;
+                z-index: 3;
+            }
+            .selected-class-name1 {
+                margin-bottom: 54%;
+                position: absolute;
+                top: 15%;
+                border: 1px #d1d3d3;
+            }
+        }
+        /* Landscape tablets and medium desktops */
+        
+        @media (min-width: 992px) and (max-width: 1200px) {
+            .lap {
+                left: 866px;
+                top: -51px;
+                position: relative;
+                /* position: absolute; */
+            }
+        }
+        
+        .selected-class-name {
+            position: relative;
+            top: -10px;
+            /* margin-top: -9%; */
+            border: 1px #d1d3d3;
+        }
+    </style>
+</head>
+
+
+<body ng-app="myApp" ng-controller="controll" style="background-color: #ebebeb;">
+    <div class="container">
+        <nav class="navbar navbar-fixed-top" style=" background: #919595;">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#" style=" color: #ffffff; font-size: 200%;">Service</a>
+                </div>
+                <!-- /.nav-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+    </div>
+    <hr><br><br><br>
+
+    <div class="container" style=" background: #fafbfb;height: 800px;margin-top: -3%;">
+
+        <div class="row">
+            <h3 style=" color: #0d9f6e;"> &nbsp; Note </h3>
+
+            <div class="pull-right" style="margin-top: -53px;">
+                <span ng-if="toggle == true" class="btn no-shadow btn-default"><i class="glyphicon glyphicon-plus" ng-click="opencreat();" aria-hidden="true "></i></span>
+                <span ng-if="toggle == false" class="btn no-shadow btn-default "><i class="glyphicon glyphicon-minus" ng-click="opencreat();" aria-hidden="true "></i></span>
+                <span ng-click="openclose();" class="glyphicon glyphicon-option-vertical"></span>
+                <span class="btn no-shadow btn-default"><i class="glyphicon glyphicon-menu-hamburger" ng-click="ShowHide();" aria-hidden="true "></i></span>
+            </div>
+        </div>
+
+        <div class="jumbotron" style=" background: #26add2;max-height: 300px;" ng-show="toggle == false">
+            <div class="lap">
+                <span><i class="glyphicon glyphicon-triangle-bottom" ng-click="ShowHide();"></i></span></div>
+            <div style="margin-top: -6%;margin-left: -5%;">
+                <h3>Create Or Edit</h3>
+            </div>
+            <div style="margin-top: -3%;margin-left: 13%;">
+                <form name="form" novalidate>
+                    <div ng-show="form.Title.$touched && form.Title.$error.required" class="errorMessage">
+                        You must enter a Title
+                    </div>
+
+                    <div class="form-group">
+                        <label>Title:</label>
+                        <input type="text" name="Title" class="form-control" ng-model="user.title" style="width: 34%;" required>
+                    </div>
+                    <div class="form-group pull-right" style="margin-right: 40%;margin-top: -5%;">
+                        <label>Editable: </label>
+                        <input class="checkbox-inline" type="checkbox" ng-model="user.edit">
+                    </div>
+                    <div ng-show="form.Comment.$touched && form.Comment.$error.required" class="errorMessage">
+                        You must enter a Some Text
+                    </div>
+                    <div class="form-group">
+                        <label>Text:</label>
+                        <textarea style="width: 45%;" name="Comment" class="form-control" ng-model="user.comment" rows="5" required></textarea>
+                    </div>
+                    <input type="button" value="Save" ng-if="!mode" id="submitBtn" ng-click="form.$valid && datasubmit(user);" class="btn btn-default pull-right" style="margin-right: 41%;margin-top: -5%;" />
+                    <input type="button" value="Save" id="submitBtn" ng-if="mode" ng-click="EditData(user);" class="btn btn-default pull-right" style="margin-right: 41%;margin-top: -5%;" ng-disabled="user.edit == false" />
+                </form>
+            </div>
+        </div>
+        <div class="container ">
+            <div class="row sumshow" ng-show="IsVisible">
+                <div class="col-md-3" style="background: #D5E7F1;">
+                    <span style="margin-left: 90%;margin-top: -3px;position: absolute;"><i class="glyphicon glyphicon-triangle-bottom" ng-click="ShowHide();"></i></span>
+
+                    <h1>Summary</h1>
+                    <label>Last updated:</label>
+                    <h5>{{ lastUpadte.dateOut | date : 'medium' }}</h5>
+                    <label>last upadted note:</label>
+                    <h5>{{lastUpadte.title}}</h5>
+                    <label>Note:</label>
+                    <h5>{{ list.length }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-class="toggle == false ? 'selected-class-name': 'selected-class-name1'">
+            <table class="table table-striped" style="width: 90%;margin-left: 4%">
+                <thead>
+                    <tr>
+                        <th ng-click="sortBy('title')" class="text-left" ng-class="{reverse: reverse}">Title</th>
+                        <th class="text-right">Time Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in list |orderBy:propertyName:reverse" ng-click="goto_detail(list[$index],'editMode')">
+                        <td ng-class='{red : list.changeColor, black: !list.changeColor}'>{{x.title}}</td>
+                        <td class="text-right"> {{ x.dateOut | date : 'medium' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!--/row-->
+    </div>
+</body>
+
+</html>
